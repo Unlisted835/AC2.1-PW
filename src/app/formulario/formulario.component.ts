@@ -1,4 +1,4 @@
-import { NgIf, NgClass } from '@angular/common';
+import { NgIf, NgClass, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LocalStorageService } from '../services/LocalStorageService';
@@ -6,13 +6,16 @@ import { Participante } from '../models/participant';
 
 @Component({
    selector: 'app-formulario',
-   imports: [ReactiveFormsModule, NgIf, NgClass],
+   imports: [ReactiveFormsModule, NgIf, NgClass, NgFor],
    templateUrl: './formulario.component.html',
    styleUrl: './formulario.component.css'
 })
 export class FormularioComponent implements OnInit {
    form!: FormGroup;
-   participants!: Participante[]
+   participants: Participante[] = [
+      {nome: "Jorge", email: "jorge@exemplo.com", cpf: "123.456.789-00", ingresso: "VIP"},
+      {nome: "Joelma", email: "joelma@exemplo.com", cpf: "987.654.321-00", ingresso: "Padrão"}
+   ]
 
    constructor(private local: LocalStorageService) { }
 
