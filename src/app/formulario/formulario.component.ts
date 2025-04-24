@@ -2,6 +2,7 @@ import { NgIf, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LocalStorageService } from '../services/LocalStorageService';
+import { Participante } from '../models/participant';
 
 @Component({
    selector: 'app-formulario',
@@ -11,43 +12,37 @@ import { LocalStorageService } from '../services/LocalStorageService';
 })
 export class FormularioComponent implements OnInit {
    form!: FormGroup;
+   participants!: Participante[]
 
    constructor(private local: LocalStorageService) { }
 
    ngOnInit() {
       this.form = new FormGroup({
-         place: new FormControl('', Validators.required),
-         going: new FormControl('', Validators.required),
-         arriving: new FormControl('', Validators.required),
+         event: new FormControl('', Validators.required),
+         modality: new FormControl('', Validators.required),
+         start: new FormControl('', Validators.required),
+         end: new FormControl('', Validators.required),
          passengers: new FormControl('', [Validators.required, Validators.min(1), Validators.max(5)]),
          email: new FormControl('', [Validators.required, Validators.email])
       });
 
-      this.form.get('place')?.setValue(this.local.get('place'))
-      this.form.get('going')?.setValue(this.local.get('going'))
-      this.form.get('arriving')?.setValue(this.local.get('arriving'))
+      this.form.get('event')?.setValue(this.local.get('event'))
+      this.form.get('modality')?.setValue(this.local.get('modality'))
+      this.form.get('start')?.setValue(this.local.get('start'))
+      this.form.get('end')?.setValue(this.local.get('end'))
       this.form.get('passengers')?.setValue(this.local.get('passengers'))
       this.form.get('email')?.setValue(this.local.get('email'))
    }
 
    onSubmit() {
-      const destino = this.form.get('place')?.value
-      const ida = this.form.get('going')?.value
-      const volta = this.form.get('arriving')?.value
-      const passageiros = this.form.get('passengers')?.value
-      const email = this.form.get('email')?.value
-
-      alert(
-         `Destino: ${destino}\nIda: ${ida}\nVolta: ${volta}\nPassageiros: ${passageiros}\nEmail: ${email}`
-      )
       console.log(this.form.value)
-
       this.reset()
    }
    reset() {
-      this.local.set('place', null)
-      this.local.set('going', null)
-      this.local.set('arriving', null)
+      this.local.set('event', null)
+      this.local.set('modality', null)
+      this.local.set('start', null)
+      this.local.set('end', null)
       this.local.set('passengers', null)
       this.local.set('email', null)
 
@@ -69,9 +64,9 @@ export class FormularioComponent implements OnInit {
          this.form.get('email')?.errors?.['email']
    }
    showInvalidDates(): boolean {
-      const going = this.form.get('going')?.value;
-      const arriving = this.form.get('arriving')?.value;
-      return this.wasTouched('going') && this.wasTouched('arriving') && going && arriving && going > arriving;
+      const start = this.form.get('start')?.value;
+      const end = this.form.get('end')?.value;
+      return this.wasTouched('start') && this.wasTouched('end') && start && end && start > end;
 
    }
    showInvalidPassengerNumber(): boolean {

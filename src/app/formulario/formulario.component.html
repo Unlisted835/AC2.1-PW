@@ -1,40 +1,53 @@
 <form class="m-5 p-5 rounded" [formGroup]="form" (ngSubmit)="onSubmit()">
-   <div class="mb-3">
-      <label for="place" class="form-label">Destino</label>
-      <select class="form-select" formControlName="place" [ngClass]="{'border-danger': showRequired('place')}" 
-      (change)="onInputChange('place')">
-         <option value="">Insira o destino</option>
-         <option value="Paris">Paris</option>
-         <option value="Nova York">Nova York</option>
-         <option value="Tokio">Tokio</option>
-         <option value="Rio de Janeiro">Rio de Janeiro</option>
-      </select>
-      <div class="mt-1" *ngIf="showRequired('place')" class="text-danger">* Destino é obrigatório</div>
+   <div class="d-flex justify-content-between mb-3">
+      <div>
+         <label for="event" class="form-label">Evento</label>
+         <select class="form-select" formControlName="event" [ngClass]="{'border-danger': showRequired('event')}" 
+         (change)="onInputChange('event')">
+            <option value="">Insira o evento</option>
+            <option value="TechConf 2025">TechConf 2025</option>
+            <option value="Summit de Inovação">Summit de Inovação</option>
+            <option value="Angular World">Angular World</option>
+            <option value="Conexão Dev">Conexão Dev</option>
+         </select>
+         <div class="mt-1" *ngIf="showRequired('event')" class="text-danger">* Evento é obrigatório</div>
+      </div>
+      <div>
+         <label for="modality" class="form-label">Modalidade</label>
+         <select class="form-select" formControlName="modality" [ngClass]="{'border-danger': showRequired('modality')}" 
+         (change)="onInputChange('modality')">
+            <option value="">Insira a modalidade</option>
+            <option value="Presencial">Presencial</option>
+            <option value="Online">Online</option>
+         </select>
+         <div class="mt-1" *ngIf="showRequired('modality')" class="text-danger">* Modalidade é obrigatória</div>
+      </div>
+      <div>
+         <label for="start" class="form-label">Data de início</label>
+         <input type="date" class="form-control" id="start" eventholder="Insira sua data de ida" formControlName="start"
+         [ngClass]="{'border-danger': showRequired('start') || showInvalidDates()}" (change)="onInputChange('start')">
+         <div class="mt-1" *ngIf="showRequired('start')" class="text-danger">* Data de início é obrigatória</div>
+         <div class="mt-1" *ngIf="showInvalidDates()" class="text-danger">* Data de início deve ser antes que a de término</div>
+      </div>
+      <div class="mb-3">
+         <label for="end" class="form-label">Data de término</label>
+         <input type="date" class="form-control" id="end" eventholder="Insira sua data de volta" formControlName="end"
+         [ngClass]="{'border-danger': showRequired('end') || showInvalidDates()}" (change)="onInputChange('end')">
+         <div class="mt-1" *ngIf="showRequired('end')" class="text-danger">* Data de término é obrigatória</div>
+         <div class="mt-1" *ngIf="showInvalidDates()" class="text-danger">* Data de término deve ser depois que a de início</div>
+      </div>
    </div>
-   <div class="mb-3">
-      <label for="going" class="form-label">Data de Ida</label>
-      <input type="date" class="form-control" id="going" placeholder="Insira sua data de ida" formControlName="going"
-      [ngClass]="{'border-danger': showRequired('going') || showInvalidDates()}" (change)="onInputChange('going')">
-      <div class="mt-1" *ngIf="showRequired('going')" class="text-danger">* Data de ida é obrigatória</div>
-      <div class="mt-1" *ngIf="showInvalidDates()" class="text-danger">* Data de ida deve ser antes que a de volta</div>
-   </div>
-   <div class="mb-3">
-      <label for="arriving" class="form-label">Data de Volta</label>
-      <input type="date" class="form-control" id="arriving" placeholder="Insira sua data de volta" formControlName="arriving"
-      [ngClass]="{'border-danger': showRequired('arriving') || showInvalidDates()}" (change)="onInputChange('arriving')">
-      <div class="mt-1" *ngIf="showRequired('arriving')" class="text-danger">* Data de volta é obrigatória</div>
-      <div class="mt-1" *ngIf="showInvalidDates()" class="text-danger">* Data de volta deve ser depois que a de ida</div>
-   </div>
+   
    <div class="mb-3">
       <label for="passengers" class="form-label">Número de Passageiros</label>
-      <input type="number" class="form-control" id="passengers" placeholder="Insira a quantidade de passageiros" formControlName="passengers"
+      <input type="number" class="form-control" id="passengers" eventholder="Insira a quantidade de passageiros" formControlName="passengers"
       [ngClass]="{'border-danger': showRequired('passengers') || showInvalidPassengerNumber()}" (change)="onInputChange('passengers')">
       <div class="mt-1" *ngIf="showRequired('passengers')" class="text-danger">* Quantidade de passageiros é obrigatória</div>
       <div class="mt-1" *ngIf="showInvalidPassengerNumber()" class="text-danger">* Quantidade de passageiros deve ser entre 1 e 5</div>
    </div>
    <div class="mb-3">
       <label for="email" class="form-label">Email Para Contato</label>
-      <input type="email" class="form-control" id="email" placeholder="Insira seu email" formControlName="email"
+      <input type="email" class="form-control" id="email" eventholder="Insira seu email" formControlName="email"
       [ngClass]="{'border-danger': showRequired('email') || showInvalidEmail()}" (change)="onInputChange('email')">
       <div class="mt-1" *ngIf="showRequired('email')" class="text-danger">* Email é obrigatório</div>
       <div class="mt-1" *ngIf="showInvalidEmail()" class="text-danger">* E-mail inválido</div>
