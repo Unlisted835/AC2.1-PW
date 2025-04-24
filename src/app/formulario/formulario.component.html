@@ -1,0 +1,46 @@
+<form class="m-5 p-5 rounded" [formGroup]="form" (ngSubmit)="onSubmit()">
+   <div class="mb-3">
+      <label for="place" class="form-label">Destino</label>
+      <select class="form-select" formControlName="place" [ngClass]="{'border-danger': showRequired('place')}" 
+      (change)="onInputChange('place')">
+         <option value="">Insira o destino</option>
+         <option value="Paris">Paris</option>
+         <option value="Nova York">Nova York</option>
+         <option value="Tokio">Tokio</option>
+         <option value="Rio de Janeiro">Rio de Janeiro</option>
+      </select>
+      <div class="mt-1" *ngIf="showRequired('place')" class="text-danger">* Destino é obrigatório</div>
+   </div>
+   <div class="mb-3">
+      <label for="going" class="form-label">Data de Ida</label>
+      <input type="date" class="form-control" id="going" placeholder="Insira sua data de ida" formControlName="going"
+      [ngClass]="{'border-danger': showRequired('going') || showInvalidDates()}" (change)="onInputChange('going')">
+      <div class="mt-1" *ngIf="showRequired('going')" class="text-danger">* Data de ida é obrigatória</div>
+      <div class="mt-1" *ngIf="showInvalidDates()" class="text-danger">* Data de ida deve ser antes que a de volta</div>
+   </div>
+   <div class="mb-3">
+      <label for="arriving" class="form-label">Data de Volta</label>
+      <input type="date" class="form-control" id="arriving" placeholder="Insira sua data de volta" formControlName="arriving"
+      [ngClass]="{'border-danger': showRequired('arriving') || showInvalidDates()}" (change)="onInputChange('arriving')">
+      <div class="mt-1" *ngIf="showRequired('arriving')" class="text-danger">* Data de volta é obrigatória</div>
+      <div class="mt-1" *ngIf="showInvalidDates()" class="text-danger">* Data de volta deve ser depois que a de ida</div>
+   </div>
+   <div class="mb-3">
+      <label for="passengers" class="form-label">Número de Passageiros</label>
+      <input type="number" class="form-control" id="passengers" placeholder="Insira a quantidade de passageiros" formControlName="passengers"
+      [ngClass]="{'border-danger': showRequired('passengers') || showInvalidPassengerNumber()}" (change)="onInputChange('passengers')">
+      <div class="mt-1" *ngIf="showRequired('passengers')" class="text-danger">* Quantidade de passageiros é obrigatória</div>
+      <div class="mt-1" *ngIf="showInvalidPassengerNumber()" class="text-danger">* Quantidade de passageiros deve ser entre 1 e 5</div>
+   </div>
+   <div class="mb-3">
+      <label for="email" class="form-label">Email Para Contato</label>
+      <input type="email" class="form-control" id="email" placeholder="Insira seu email" formControlName="email"
+      [ngClass]="{'border-danger': showRequired('email') || showInvalidEmail()}" (change)="onInputChange('email')">
+      <div class="mt-1" *ngIf="showRequired('email')" class="text-danger">* Email é obrigatório</div>
+      <div class="mt-1" *ngIf="showInvalidEmail()" class="text-danger">* E-mail inválido</div>
+   </div>
+   <div class="btn-group">
+      <button [ngClass]="{'btn' : true, 'btn-secondary': !form.valid, 'btn-primary': form.valid}" type="submit" [disabled]="!form.valid">Enviar</button>
+      <button class="btn btn-info" type="reset" (click)="reset()">Reset</button>
+   </div>
+</form>
